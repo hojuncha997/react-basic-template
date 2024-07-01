@@ -1,7 +1,9 @@
-import { useRoutes } from "react-router-dom";
+import { useRoutes, Navigate } from "react-router-dom";
 import MainLayout from "../layouts/main/MainLayout";
 import DashboardLayout from "../layouts/dashboard/DashboardLayout";
-import { LoginPage } from "./elements";
+
+import { LoginPage, ProductListPage } from "./elements";
+
 
 export default function RoutesConfig() {
   return useRoutes([
@@ -14,6 +16,18 @@ export default function RoutesConfig() {
           path: "login",
           element: <LoginPage />,
         },
+        {
+          path: "product",
+          children: [
+            {
+              path: "",
+              element: <Navigate to="list" replace />,
+            },
+            {path: "list",
+             element: <ProductListPage /> 
+            }
+          ],
+        }
       ],
     },
   ]);

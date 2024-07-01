@@ -1,4 +1,4 @@
-import { Children, Suspense, lazy } from "react";
+import { Suspense, lazy } from "react";
 
 const Loadable = (Component) => (props) =>
   (
@@ -9,3 +9,5 @@ const Loadable = (Component) => (props) =>
 
 // export const LoginPage = lazy(() => import("../pages/loginPage"));
 export const LoginPage = Loadable(lazy(() => import("../pages/loginPage")));
+
+export const ProductListPage = Loadable(lazy(() => import("../pages/product/ProductListPage")));
