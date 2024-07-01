@@ -1,10 +1,39 @@
-import { NAV } from "../../../config-global";
+import styled from "styled-components";
+import { useEffect, useState } from "react";
 
-const Header  = () => {
-    return (
-        <div>
-            <h1 style={{border:"1px solid black" , width:`calc(100vw - ${NAV.W_DASHBOARD + 1}px)`, zIndex:"1000"}}>Header</h1>
-        </div>
-    )
-}
+const HeaderContainer = styled.div`
+  border-bottom: 1px solid black;
+  padding: 16px;
+`;
+
+const Header = ({ onOpenNav }) => {
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsDesktop(true);
+      } else {
+        setIsDesktop(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // 초기 렌더링 시 화면 크기를 한 번 체크
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return (
+    <HeaderContainer>
+      {isDesktop ? <h1>desktop</h1> : <h1 onClick={onOpenNav}>iii</h1>}
+      <h1>Header</h1>
+    </HeaderContainer>
+  );
+};
+
 export default Header;

@@ -1,21 +1,14 @@
-import { HEADER, NAV } from "../../config-global";
+import styled from "styled-components";
 
+const MainContainer = styled.div`
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+`;
 
-
-export default function Main({children, ...other}) {
-    return (
-        <div style={{paddingTop: `${HEADER.H_MOBILE + 8}px`, paddingBottom: `${HEADER.H_MOBILE + 8}px`}}>
-            {children}
-        </div>
-    )
+export default function Main({ children }) {
+  return <MainContainer>{children}</MainContainer>;
 }
-
-
-
-
-
-
-
 // import PropTypes from 'prop-types';
 // // @mui
 // import { Box } from '@mui/material';

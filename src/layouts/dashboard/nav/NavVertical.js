@@ -1,40 +1,93 @@
 import navConfig from "./nav-config";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { NAV } from "../../../config-global";
+import styled from "styled-components";
 
+const NavContainer = styled.div`
+  display: ${(props) => (props.openNav ? "block" : "none")};
+  position: fixed; /* 모바일 환경에서 화면에 표시되도록 고정 */
+  top: 0;
+  left: 0;
+  width: ${NAV.W_DASHBOARD}px;
+  height: 100vh;
+  border-right: 1px solid black;
+  overflow-y: auto;
+  background-color: white;
+  z-index: 1200;
 
-export function NavVertical() {
-    const [refresh, setRefresh] = useState(false);
-    const navigate = useNavigate();
+  @media (min-width: 768px) {
+    position: static; /* 데스크탑 환경에서는 고정 해제 */
+    display: block;
+  }
+`;
 
-    const handleNavigate  = (path) => {
-        setRefresh(!refresh);
-        navigate(path);
+const NavList = styled.ul`
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const NavItem = styled.li`
+  cursor: pointer;
+  padding: 8px 16px;
+  &:hover {
+    background-color: #f0f0f0;
+  }
+`;
+
+export function NavVertical({ openNav, onCloseNav }) {
+  const [refresh, setRefresh] = useState(false);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth > 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (openNav) {
+      onCloseNav();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
+  useEffect(() => {
+    console.log("openNav: ", openNav);
+  }, [openNav]);
 
+  const handleNavigate = (path) => {
+    setRefresh(!refresh);
+    navigate(path);
+  };
 
-    return (
-        <div style={{ border:"1px solid black" , width: `${NAV.W_DASHBOARD}px` , height:"100vh"}}>
-            {/* <h1>NavVertical</h1> */}
-            <ul style={{listStyleType:'none'}}>
-                {navConfig.map((item, index) => (
-                    <li key={index}>
-                        <h3>{item.subheader}</h3>
-                        <ul>
-                            {item.items.map((navItem, index) => (
-                                <li key={index} style={{
-                                    listStyleType: "none",
-                                }}>
-                                    {/* <a href={navItem.path}>{navItem.title}</a> */}
-                                    <span onClick={() => handleNavigate(navItem.path)} style={{cursor:"pointer" , fontSize:"0.8em"}}>{navItem.title}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+  return (
+    <NavContainer openNav={openNav}>
+      <NavList>
+        {navConfig.map((item, index) => (
+          <li key={index}>
+            <h3>{item.subheader}</h3>
+            <NavList>
+              {item.items.map((navItem, index) => (
+                <NavItem
+                  key={index}
+                  onClick={() => handleNavigate(navItem.path)}
+                >
+                  {navItem.title}
+                </NavItem>
+              ))}
+            </NavList>
+          </li>
+        ))}
+      </NavList>
+    </NavContainer>
+  );
 }
