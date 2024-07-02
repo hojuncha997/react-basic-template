@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { NAV } from "../../../config-global";
 import styled from "styled-components";
+import useResponsive from "../../../hooks/useResponsive";
 
 const NavContainer = styled.div`
   display: ${(props) => (props.openNav ? "block" : "none")};
@@ -40,19 +41,10 @@ export function NavVertical({ openNav, onCloseNav }) {
   const [refresh, setRefresh] = useState(false);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
+  const { width, height } = useResponsive();
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth > 768);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
+  
+  
   useEffect(() => {
     if (openNav) {
       onCloseNav();

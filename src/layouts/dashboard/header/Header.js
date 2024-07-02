@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
+import useResponsive from "../../../hooks/useResponsive";
 
 const HeaderContainer = styled.div`
   border-bottom: 1px solid black;
@@ -7,30 +8,15 @@ const HeaderContainer = styled.div`
 `;
 
 const Header = ({ onOpenNav }) => {
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 768) {
-        setIsDesktop(true);
-      } else {
-        setIsDesktop(false);
-      }
-    };
+    const { width, height } = useResponsive();
 
-    window.addEventListener("resize", handleResize);
-
-    // 초기 렌더링 시 화면 크기를 한 번 체크
-    handleResize();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+//   const [isDesktop, setIsDesktop] = useState(width > 768);
 
   return (
     <HeaderContainer>
-      {isDesktop ? <h1>desktop</h1> : <h1 onClick={onOpenNav}>iii</h1>}
+      {/* {isDesktop ? <h1>desktop</h1> : <h1 onClick={onOpenNav}>iii</h1>} */}
+      {width > 768 ? <h1>desktop</h1> : <h1 onClick={onOpenNav}>iii</h1>}
       <h1>Header</h1>
     </HeaderContainer>
   );
