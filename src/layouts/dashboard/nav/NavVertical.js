@@ -23,6 +23,15 @@ const NavContainer = styled.div`
   }
 `;
 
+/*
+  화면 너비가 줄어들었을 때 네비게이션바가 안 보이는 것은 기본적으로 미디어쿼리로 인한 것이다.
+  다른 곳에서는 핸들러를 사용하여 openNav 상태를 변경하여 네비게이션 바를 열거나 닫는다.
+
+*/
+
+
+
+
 const NavList = styled.ul`
   list-style-type: none;
   padding: 0;
@@ -41,7 +50,7 @@ export function NavVertical({ openNav, onCloseNav }) {
   const [refresh, setRefresh] = useState(false);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { width, height } = useResponsive();
+//   const { width, height } = useResponsive();
 
   
   
@@ -50,7 +59,7 @@ export function NavVertical({ openNav, onCloseNav }) {
       onCloseNav();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [pathname]);   // pathname이 변경될 때마다 실행. pathname이 변경되면 openNav가 true이면 닫아줌
 
   useEffect(() => {
     console.log("openNav: ", openNav);
