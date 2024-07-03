@@ -19,23 +19,23 @@ const ContentContainer = styled.div`
 
 
 export default function DashboardLayout() {
-  const [open, setOpen] = useState(false);
+  const [openNav, setOpenNav] = useState(false);
 
   const handleOpen = () => {
     // alert("open");
-    setOpen(true);
+    setOpenNav(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenNav(false);
   };
 
   useEffect(() => {
-    console.log("open: ", open);
-  }, [open]);
+    console.log("openNav: ", openNav);
+  }, [openNav]);
 
   const renderNavVertical = (
-    <NavVertical openNav={open} onCloseNav={handleClose} />
+    <NavVertical openNav={openNav} onOpenNav={handleOpen} onCloseNav={handleClose} />
   );
 
   return (

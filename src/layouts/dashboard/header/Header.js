@@ -7,6 +7,24 @@ const HeaderContainer = styled.div`
   padding: 16px;
 `;
 
+const HamburgerButton = styled.div`
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1100;
+  cursor: pointer;
+  div {
+    width: 25px;
+    height: 3px;
+    background-color: black;
+    margin: 5px 0;
+  }
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
 const Header = ({ onOpenNav }) => {
 
     const { width, height } = useResponsive();
@@ -15,6 +33,13 @@ const Header = ({ onOpenNav }) => {
 
   return (
     <HeaderContainer>
+      {width < 768 && (
+        <HamburgerButton onClick={onOpenNav}>
+          <div></div>
+          <div></div>
+          <div></div>
+        </HamburgerButton>
+      )}
       {/* {isDesktop ? <h1>desktop</h1> : <h1 onClick={onOpenNav}>iii</h1>} */}
       {/* {width > 768 ? <h1>desktop</h1> : <h1>mobile</h1>} */}
       <h1>Header</h1>

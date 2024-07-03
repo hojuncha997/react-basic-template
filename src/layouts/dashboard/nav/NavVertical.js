@@ -59,23 +59,7 @@ const Backdrop = styled.div`
   }
 `;
 
-const HamburgerButton = styled.div`
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 1100;
-  cursor: pointer;
-  div {
-    width: 25px;
-    height: 3px;
-    background-color: black;
-    margin: 5px 0;
-  }
 
-  @media (min-width: 768px) {
-    display: none;
-  }
-`;
 
 const NavList = styled.ul`
   list-style-type: none;
@@ -92,11 +76,12 @@ const NavItem = styled.li`
 `;
 
 export function NavVertical({ openNav, onCloseNav }) {
-  const [isNavOpen, setIsNavOpen] = useState(openNav);
+
   const [enableTransition, setEnableTransition] = useState(false);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { width } = useResponsive();
+  
 
   useEffect(() => {
     if (openNav) {
@@ -105,9 +90,6 @@ export function NavVertical({ openNav, onCloseNav }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  useEffect(() => {
-    console.log("openNav: ", openNav);
-  }, [openNav]);
 
   useEffect(() => {
     if (width < 768) {
@@ -118,29 +100,20 @@ export function NavVertical({ openNav, onCloseNav }) {
   }, [width]);
 
   const handleNavigate = (path) => {
-    setIsNavOpen(!isNavOpen);
+    onCloseNav();
     navigate(path);
   };
 
-  const toggleNav = () => {
-    setIsNavOpen(!isNavOpen);
-  };
-
+  
   const closeNav = () => {
-    setIsNavOpen(false);
+    onCloseNav();
   };
 
   return (
     <>
       <GlobalStyle />
-      {width < 768 && (
-        <HamburgerButton onClick={toggleNav}>
-          <div></div>
-          <div></div>
-          <div></div>
-        </HamburgerButton>
-      )}
-      <NavContainer openNav={isNavOpen} enableTransition={enableTransition}>
+      
+      <NavContainer openNav={openNav} enableTransition={enableTransition}>
         <NavList>
           {navConfig.map((item, index) => (
             <li key={index}>
@@ -159,7 +132,7 @@ export function NavVertical({ openNav, onCloseNav }) {
           ))}
         </NavList>
       </NavContainer>
-      {width < 768 && <Backdrop openNav={isNavOpen} onClick={closeNav} />}
+      {width < 768 && <Backdrop openNav={openNav} onClick={closeNav} />}
     </>
   );
 }
