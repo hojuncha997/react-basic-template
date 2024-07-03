@@ -16,6 +16,8 @@ const ContentContainer = styled.div`
   flex-direction: column;
 `;
 
+
+
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
 
